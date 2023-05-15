@@ -52,7 +52,7 @@ public class Program
                         Console.Write("Masukkan nama : ");
                         string nama = Console.ReadLine();
                         university.Name = nama;
-                        university.Id = 8;
+                        university.Id = 22;
 
                         var result = Universities.InsertUniv(university);
                         if (result > 0)
@@ -203,20 +203,20 @@ public class Program
 
                     else if (tabel2 == 3)
                     {
-                        Employees.PrintOutEmployee();
+                        Employees.GetEmployees();
                     }
 
                     else if (tabel2 == 4)
                     {
-                        /*Console.WriteLine("Menampilkan semua data");
-                        var resultss = Profillings.GetProfilings();
+                        Console.WriteLine("Menampilkan semua data");
+                        var resultss = Profilings.GetProfilings();
                         foreach (var result in resultss)
                         {
                             Console.WriteLine("EmployeeId: " + result.EmployeeId);
                             Console.WriteLine("EducationId: " + result.EducationId);
                             Console.WriteLine("-------------------------------------");
                             Console.WriteLine("");
-                        }*/
+                        }
                     }
 
                     else if (tabel2 == 5)

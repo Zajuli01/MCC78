@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BookingRooms;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -6,14 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BookingRooms;
 
 public class Employees
 {
     private static readonly string connectionString =
      "Data Source=E5\\MSSQLSERVER2; Database=BookingRoom;Integrated Security=True;Connect Timeout=30;Encrypt=False;";
 
-    public int Id { get; set; }
+    public string Id { get; set; }
     public string Nik { get; set; }
     public string FirstName { get; set; }
     public string LastName { get; set; }
@@ -22,8 +22,9 @@ public class Employees
     public DateTime HiringDate { get; set; }
     public string Email { get; set; }
     public string PhoneNumber { get; set; }
-    public int DepartmentId { get; set; }
+    public string DepartmentId { get; set; }
 
+    /* CREATE */
     public static int InsertEmployee(Employees employees)
     {
         int result = 0;
@@ -35,7 +36,7 @@ public class Employees
         {
             SqlCommand command = new SqlCommand();
             command.Connection = connection;
-            command.CommandText = "INSERT INTO Employees(nik, first_name, last_name, birthdate, gender, hiring_date, email, phone_number, department_id) " +
+            command.CommandText = "INSERT INTO Employees (nik, first_name, last_name, birthdate, gender, hiring_date, email, phone_number, departement_id) " +
                 "VALUES (@NIK, @FirstName, @LastName, @Birthdate, @Gender, @HiringDate, @Email, @PhoneNumber, @DepartmentId)";
             command.Transaction = transaction;
 
@@ -118,12 +119,13 @@ public class Employees
         return result;
     }
 
+    // Mengambil NIK pada employee, untuk nanti menyesuaikan dengan ID nya. Karena ID pada employee bertipe data GUID
     public static string GetEmpId(string NIK)
     {
         using SqlConnection connection = new SqlConnection(connectionString);
         connection.Open();
 
-        SqlCommand command = new SqlCommand("SELECT TOP 1 id FROM Universities ORDER BY id DESC", connection);
+        SqlCommand command = new SqlCommand("SELECT id FROM Employees WHERE nik=(@NIK)", connection);
 
         var niks = new SqlParameter();
         niks.ParameterName = "@NIK";
@@ -135,6 +137,7 @@ public class Employees
 
         return lastEmpId;
     }
+
 
     public static int GetUnivEduId(int choice)
     {
@@ -151,7 +154,7 @@ public class Employees
         }
         else
         {
-            SqlCommand command = new SqlCommand("SELECT TOP 1 id FROM Universities ORDER BY id DESC", connection);
+            SqlCommand command = new SqlCommand("SELECT TOP 1 id FROM Educations ORDER BY id DESC", connection);
 
             int id = Convert.ToInt32(command.ExecuteScalar());
             connection.Close();
@@ -159,10 +162,11 @@ public class Employees
             return id;
         }
     }
+    // Insert ALL
     public static void PrintOutEmployee()
     {
         var employee = new Employees();
-        var profiling = new Profillings();
+        var profiling = new Profilings();
         var education = new Educations();
         var university = new Universities();
 
@@ -192,9 +196,9 @@ public class Employees
         employee.PhoneNumber = Console.ReadLine();
 
         Console.Write("Department ID : ");
-        employee.DepartmentId = Convert.ToInt32(Console.ReadLine());
+        employee.DepartmentId = Console.ReadLine();
 
-       
+
 
         //EDUCATION
         Console.Write("Major : ");
@@ -209,29 +213,33 @@ public class Employees
         Console.Write("University Name : ");
         university.Name = Console.ReadLine();
 
-         var result = Employees.InsertEmployee(employee);
-        if (result > 0)
-        {
-            Console.WriteLine("Insert Success");
-        }
-        else
-        {
-            Console.WriteLine("Insert Failed");
-        }
         Universities.InsertUniv(university);
 
         education.UniversityId = GetUnivEduId(1);
         Educations.InsertEduc(education);
 
+        var result = InsertEmployee(employee);
+        if (result > 0)
+        {
+            Console.WriteLine("INSERT Success");
+        }
+        else
+        {
+            Console.WriteLine("INSERT Failed");
+        }
+
+        Universities.InsertUniv(university);
+        education.UniversityId = GetUnivEduId(1);
+        Educations.InsertEduc(education);
+
         profiling.EmployeeId = GetEmpId(niks);
         profiling.EducationId = GetUnivEduId(2);
-        Profillings.InsertProfiling(profiling);
+        Profilings.InsertProfiling(profiling);
 
     }
 
-
-    /*READ*/
-    /*public static List<Employees> GetEmployees()
+    /* READ*/
+    public static List<Employees> GetEmployees()
     {
         var emp = new List<Employees>();
         using SqlConnection connection = new SqlConnection(connectionString);
@@ -252,12 +260,12 @@ public class Employees
                     emplo.Nik = reader.GetString(1);
                     emplo.FirstName = reader.GetString(2);
                     emplo.LastName = reader.GetString(3);
-                    emplo.BirthDate = reader.GetDateTime(4);
+                    emplo.Birthdate = reader.GetDateTime(4);
                     emplo.Gender = reader.GetString(5);
                     emplo.HiringDate = reader.GetDateTime(6);
                     emplo.Email = reader.GetString(7);
                     emplo.PhoneNumber = reader.GetString(8);
-                    emplo.DepartementId = reader.GetString(9);
+                    emplo.DepartmentId = reader.GetString(9);
 
                     emp.Add(emplo);
                 }
@@ -273,5 +281,12 @@ public class Employees
             connection.Close();
         }
         return new List<Employees>();
-    }*/
+    }
 }
+
+
+
+
+
+
+

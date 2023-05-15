@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace BookingRooms;
 
-public class Profillings
+public class Profilings
 {
     public string EmployeeId { get; set; }
     public int EducationId { get; set; }
 
     private static readonly string connectionString =
      "Data Source=E5\\MSSQLSERVER2; Database=BookingRoom;Integrated Security=True;Connect Timeout=30;Encrypt=False;";
-    public static int InsertProfiling(Profillings profilings)
+    public static int InsertProfiling(Profilings profilings)
     {
         int result = 0;
         using var connection = new SqlConnection(connectionString);
@@ -27,7 +27,7 @@ public class Profillings
         {
             SqlCommand command = new SqlCommand();
             command.Connection = connection;
-            command.CommandText = "INSERT INTO Profillings(employee_id, education_id) VALUES (@EmployeeId, @EducationId)";
+            command.CommandText = "INSERT INTO Profilings(employee_id, education_id) VALUES (@EmployeeId, @EducationId)";
             command.Transaction = transaction;
 
             var pEmpId = new SqlParameter();
@@ -56,19 +56,17 @@ public class Profillings
         }
         return result;
     }
-}
 
-
-/*READ*/
-/*public static List<Profillings> GetProfilings()
+    /*READ*/
+public static List<Profilings> GetProfilings()
     {
-        var pro = new List<Profillings>();
+        var pro = new List<Profilings>();
         using SqlConnection connection = new SqlConnection(connectionString);
         try
         {
             SqlCommand command = new SqlCommand();
             command.Connection = connection;
-            command.CommandText = "SELECT * FROM Profillings";
+            command.CommandText = "SELECT * FROM Profilings";
             connection.Open();
 
             using SqlDataReader reader = command.ExecuteReader();
@@ -76,7 +74,7 @@ public class Profillings
             {
                 while (reader.Read())
                 {
-                    var prof = new Profillings();
+                    var prof = new Profilings();
                     prof.EmployeeId = reader.GetGuid(0).ToString();
                     prof.EducationId = reader.GetInt32(1);
 
@@ -93,9 +91,11 @@ public class Profillings
         {
             connection.Close();
         }
-        return new List<Profillings>();
+        return new List<Profilings>();
     }
-
-
 }
-*/
+
+
+
+
+
