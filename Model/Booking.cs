@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TugasGG
+namespace TugasGG.Model
 {
-    public class Bookings
+    public class Booking
     {
         public string id { get; set; }
         public string start_date { get; set; }

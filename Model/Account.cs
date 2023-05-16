@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TugasGG
+namespace TugasGG.Model
 {
-    public class Accounts
+    public class Account
     {
         public string employee_id { get; set; }
         public string password { get; set; }

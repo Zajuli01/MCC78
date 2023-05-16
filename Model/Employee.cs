@@ -6,13 +6,11 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using TugasGG.Context;
 
-
-public class Employees
+public class Employee
 {
-    private static readonly string connectionString =
-     "Data Source=E5\\MSSQLSERVER2; Database=BookingRoom;Integrated Security=True;Connect Timeout=30;Encrypt=False;";
-
+    
     public string Id { get; set; }
     public string Nik { get; set; }
     public string FirstName { get; set; }
@@ -25,10 +23,10 @@ public class Employees
     public string departement_id { get; set; }
 
     /* CREATE */
-    public static int InsertEmployee(Employees employees)
+    public int InsertEmployee(Employee employees)
     {
         int result = 0;
-        using var connection = new SqlConnection(connectionString);
+        using var connection = ConnectionDatabase.Get();
         connection.Open();
 
         SqlTransaction transaction = connection.BeginTransaction();
@@ -120,9 +118,9 @@ public class Employees
     }
 
     // Mengambil NIK pada employee, untuk nanti menyesuaikan dengan ID nya. Karena ID pada employee bertipe data GUID
-    public static string GetEmpId(string NIK)
+    public  string GetEmpId(string NIK)
     {
-        using SqlConnection connection = new SqlConnection(connectionString);
+        using SqlConnection connection = ConnectionDatabase.Get();
         connection.Open();
 
         SqlCommand command = new SqlCommand("SELECT id FROM Employees WHERE nik=(@NIK)", connection);
@@ -139,9 +137,9 @@ public class Employees
     }
 
 
-    public static int GetUnivEduId(int choice)
+    public int GetUnivEduId(int choice)
     {
-        using var connection = new SqlConnection(connectionString);
+        using var connection = ConnectionDatabase.Get();
         connection.Open();
         if (choice == 1)
         {
@@ -162,87 +160,12 @@ public class Employees
             return id;
         }
     }
-    // Insert ALL
-    public static void PrintOutEmployee()
-    {
-        var employee = new Employees();
-        var profiling = new Profilings();
-        var education = new Educations();
-        var university = new Universities();
-
-        Console.Write("NIK : ");
-        var niks = Console.ReadLine();
-        employee.Nik = niks;
-
-        Console.Write("First Name : ");
-        employee.FirstName = Console.ReadLine();
-
-        Console.Write("Lame Name : ");
-        employee.LastName = Console.ReadLine();
-
-        Console.Write("Birthdate : ");
-        employee.Birthdate = DateTime.Parse(Console.ReadLine());
-
-        Console.Write("Gender : ");
-        employee.Gender = Console.ReadLine();
-
-        Console.Write("Hiring Date : ");
-        employee.HiringDate = DateTime.Parse(Console.ReadLine());
-
-        Console.Write("Email : ");
-        employee.Email = Console.ReadLine();
-
-        Console.Write("Phone Number : ");
-        employee.PhoneNumber = Console.ReadLine();
-
-        Console.Write("Department ID : ");
-        employee.departement_id = Console.ReadLine();
-
-
-
-        //EDUCATION
-        Console.Write("Major : ");
-        education.Major = Console.ReadLine();
-
-        Console.Write("Degree : ");
-        education.Degree = Console.ReadLine();
-
-        Console.Write("GPA : ");
-        education.Gpa = Console.ReadLine();
-
-        Console.Write("University Name : ");
-        university.Name = Console.ReadLine();
-
-        Universities.InsertUniv(university);
-
-        education.UniversityId = GetUnivEduId(1);
-        Educations.InsertEduc(education);
-
-        var result = InsertEmployee(employee);
-        if (result > 0)
-        {
-            Console.WriteLine("INSERT Success");
-        }
-        else
-        {
-            Console.WriteLine("INSERT Failed");
-        }
-
-        Universities.InsertUniv(university);
-        education.UniversityId = GetUnivEduId(1);
-        Educations.InsertEduc(education);
-
-        profiling.EmployeeId = GetEmpId(niks);
-        profiling.EducationId = GetUnivEduId(2);
-        Profilings.InsertProfiling(profiling);
-
-    }
 
     /* READ*/
-    public static List<Employees> GetEmployees()
+    public List<Employee> GetEmployees()
     {
-        var emp = new List<Employees>();
-        using SqlConnection connection = new SqlConnection(connectionString);
+        var emp = new List<Employee>();
+        using SqlConnection connection = ConnectionDatabase.Get();
         try
         {
             SqlCommand command = new SqlCommand();
@@ -255,7 +178,7 @@ public class Employees
             {
                 while (reader.Read())
                 {
-                    var emplo = new Employees();
+                    var emplo = new Employee();
                     emplo.Id = reader.GetGuid(0).ToString();
                     emplo.Nik = reader.GetString(1);
                     emplo.FirstName = reader.GetString(2);
@@ -280,7 +203,7 @@ public class Employees
         {
             connection.Close();
         }
-        return new List<Employees>();
+        return new List<Employee>();
     }
 }
 

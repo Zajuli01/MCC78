@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TugasGG
+namespace TugasGG.Model
 {
-    public class Rooms
+    public class Room
     {
         public int id { get; set; }
         public string name { get; set; }

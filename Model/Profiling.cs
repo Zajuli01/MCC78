@@ -6,20 +6,20 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-public class Profilings
+public class Profiling
 {
     public string EmployeeId { get; set; }
     public int EducationId { get; set; }
 
     private static readonly string connectionString =
      "Data Source=E5\\MSSQLSERVER2; Database=BookingRoom;Integrated Security=True;Connect Timeout=30;Encrypt=False;";
-    public static int InsertProfiling(Profilings profilings)
+    public static int InsertProfiling(Profiling profilings)
     {
         int result = 0;
         using var connection = new SqlConnection(connectionString);
         connection.Open();
-        var employee = new Employees();
-        var education = new Educations();
+        var employee = new Employee();
+        var education = new Education();
 
         SqlTransaction transaction = connection.BeginTransaction();
         try
@@ -57,9 +57,9 @@ public class Profilings
     }
 
     /*READ*/
-public static List<Profilings> GetProfilings()
+public static List<Profiling> GetProfilings()
     {
-        var pro = new List<Profilings>();
+        var pro = new List<Profiling>();
         using SqlConnection connection = new SqlConnection(connectionString);
         try
         {
@@ -73,7 +73,7 @@ public static List<Profilings> GetProfilings()
             {
                 while (reader.Read())
                 {
-                    var prof = new Profilings();
+                    var prof = new Profiling();
                     prof.EmployeeId = reader.GetGuid(0).ToString();
                     prof.EducationId = reader.GetInt32(1);
 
@@ -90,7 +90,7 @@ public static List<Profilings> GetProfilings()
         {
             connection.Close();
         }
-        return new List<Profilings>();
+        return new List<Profiling>();
     }
 }
 
