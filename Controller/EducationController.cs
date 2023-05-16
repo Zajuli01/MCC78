@@ -17,11 +17,11 @@ namespace TugasGG.Controller
             var view = new EducationView();
             if (results.Count == 0)
             {
-                view.Output("Data Tidak Ditemukan");
+                view.Outpute("Data Tidak Ditemukan");
             }
             else
             {
-                view.Output(results);
+                view.Outpute(results);
             }
         }
 

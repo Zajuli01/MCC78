@@ -111,7 +111,7 @@ namespace TugasGG.View
         {
             foreach (var emp in employee)
             {
-                Output(employee);
+                Output(emp);
             }
         }
 

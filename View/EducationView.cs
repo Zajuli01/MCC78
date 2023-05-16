@@ -108,7 +108,7 @@ namespace TugasGG.View
             }
         }
 
-        public void Output(Education education)
+        public void Outputee(Education education)
         {
             Console.WriteLine("Id: " + education.Id);
             Console.WriteLine("Major: " + education.Major);
@@ -118,15 +118,15 @@ namespace TugasGG.View
             Console.WriteLine("-----------------------------------------");
         }
 
-        public void Output(List<Education> education)
+        public void Outpute(List<Education> education)
         {
             foreach (var edu in education)
             {
-                Output(education);
+                Outputee(edu);
             }
         }
 
-        public void Output(string message)
+        public void Outpute(string message)
         {
             Console.WriteLine(message);
         }
