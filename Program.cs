@@ -217,7 +217,7 @@ public class Program
 
                     else if (tabel2 == 4)
                     {
-                        Console.WriteLine("Menampilkan Semua Tabel Join");
+                        Console.WriteLine("Menampilkan Data Profilings");
                         var resultss = Profilings.GetProfilings();
                         foreach (var result in resultss)
                         {
@@ -229,6 +229,8 @@ public class Program
                     }
                     else if (tabel2 == 5)
                     {
+                        Console.WriteLine("Menampilkan Tabel Join");
+
                         var emp = Employees.GetEmployees();
                         var profiling = Profilings.GetProfilings();
                         var education = Educations.GetEducation();
