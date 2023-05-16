@@ -4,19 +4,17 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using TugasGG.Context;
 
 public class Profiling
 {
     public string EmployeeId { get; set; }
     public int EducationId { get; set; }
 
-    private static readonly string connectionString =
-     "Data Source=E5\\MSSQLSERVER2; Database=BookingRoom;Integrated Security=True;Connect Timeout=30;Encrypt=False;";
-    public static int InsertProfiling(Profiling profilings)
+    public int InsertProfiling(Profiling profilings)
     {
         int result = 0;
-        using var connection = new SqlConnection(connectionString);
+        using var connection = ConnectionDatabase.Get();
         connection.Open();
         var employee = new Employee();
         var education = new Education();
@@ -57,10 +55,10 @@ public class Profiling
     }
 
     /*READ*/
-public static List<Profiling> GetProfilings()
+public List<Profiling> GetProfilings()
     {
         var pro = new List<Profiling>();
-        using SqlConnection connection = new SqlConnection(connectionString);
+        using SqlConnection connection = ConnectionDatabase.Get();
         try
         {
             SqlCommand command = new SqlCommand();

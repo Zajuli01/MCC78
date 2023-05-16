@@ -80,7 +80,7 @@ namespace TugasGG.View
 
             profiling.EmployeeId = employee.GetEmpId(niks);
             profiling.EducationId = employee.GetUnivEduId(2);
-            Profiling.InsertProfiling(profiling);
+            profiling.InsertProfiling(profiling);
 
         }
         public static void GetAllEmp()

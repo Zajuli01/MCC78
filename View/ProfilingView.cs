@@ -10,6 +10,7 @@ namespace TugasGG.View
     {
         public static void GetAllProfil()
         {
+            Profiling Profiling = new Profiling();
             Console.WriteLine("Menampilkan Data Profilings");
             var resultss = Profiling.GetProfilings();
             foreach (var result in resultss)
@@ -19,6 +20,26 @@ namespace TugasGG.View
                 Console.WriteLine("-------------------------------------");
                 Console.WriteLine("");
             }
+        }
+        public void Outputee(Profiling profiling)
+        {
+            Console.WriteLine("EmployeeId: " + profiling.EmployeeId);
+            Console.WriteLine("EducationId: " + profiling.EducationId);
+            Console.WriteLine("-------------------------------------");
+            Console.WriteLine("");
+        }
+
+        public void Outpute(List<Profiling> profiling)
+        {
+            foreach (var pro in profiling)
+            {
+                Outputee(pro);
+            }
+        }
+
+        public void Outpute(string message)
+        {
+            Console.WriteLine(message);
         }
     }
 }

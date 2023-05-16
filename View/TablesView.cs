@@ -14,6 +14,7 @@ namespace TugasGG.View
             var Employee = new Employee();
             var Education = new Education();
             var University = new University();
+            var Profiling = new Profiling();
             Console.WriteLine("Menampilkan Tabel Join");
 
             var emp = Employee.GetEmployees();
