@@ -1,9 +1,9 @@
-﻿using BookingRooms;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -22,7 +22,7 @@ public class Employees
     public DateTime HiringDate { get; set; }
     public string Email { get; set; }
     public string PhoneNumber { get; set; }
-    public string DepartmentId { get; set; }
+    public string departement_id { get; set; }
 
     /* CREATE */
     public static int InsertEmployee(Employees employees)
@@ -98,7 +98,7 @@ public class Employees
             pDepid.ParameterName = "@DepartmentId";
             pDepid.SqlDbType = SqlDbType.Int;
             pDepid.Size = 4;
-            pDepid.Value = employees.DepartmentId;
+            pDepid.Value = employees.departement_id;
             command.Parameters.Add(pDepid);
 
             result = command.ExecuteNonQuery();
@@ -196,7 +196,7 @@ public class Employees
         employee.PhoneNumber = Console.ReadLine();
 
         Console.Write("Department ID : ");
-        employee.DepartmentId = Console.ReadLine();
+        employee.departement_id = Console.ReadLine();
 
 
 
@@ -247,7 +247,7 @@ public class Employees
         {
             SqlCommand command = new SqlCommand();
             command.Connection = connection;
-            command.CommandText = "SELECT * FROM Employees";
+            command.CommandText = "select*from Employees";
             connection.Open();
 
             using SqlDataReader reader = command.ExecuteReader();
@@ -265,7 +265,7 @@ public class Employees
                     emplo.HiringDate = reader.GetDateTime(6);
                     emplo.Email = reader.GetString(7);
                     emplo.PhoneNumber = reader.GetString(8);
-                    emplo.DepartmentId = reader.GetString(9);
+                    emplo.departement_id = reader.GetString(9);
 
                     emp.Add(emplo);
                 }

@@ -2,7 +2,6 @@
 using System.Data;
 using static System.Net.Mime.MediaTypeNames;
 using System;
-using BookingRooms;
 using TugasGG;
 
 public class Program
@@ -169,7 +168,8 @@ public class Program
                     Console.WriteLine("=====        2. Educations              =====");
                     Console.WriteLine("=====        3. Employees               =====");
                     Console.WriteLine("=====        4. Profillings             =====");
-                    Console.WriteLine("=====        5. Back                    =====");
+                    Console.WriteLine("=====        5. Tampil Semua Tabel      =====");
+                    Console.WriteLine("=====        6. Back                    =====");
                     Console.WriteLine("=====                                   =====");
                     Console.WriteLine("Pilih menu (1/2/3/4/5): ");
 
@@ -203,12 +203,21 @@ public class Program
 
                     else if (tabel2 == 3)
                     {
-                        Employees.GetEmployees();
+                        var results = Employees.GetEmployees();
+                        foreach (var result in results)
+                        {
+                            Console.WriteLine("Id: " + result.Id);
+                            Console.WriteLine("Nik: " + result.Nik);
+                            Console.WriteLine("First Name: " + result.FirstName);
+                            Console.WriteLine("Last Name: " + result.LastName);
+                            Console.WriteLine("BirthDate : " + result.Birthdate);
+                            Console.WriteLine("-----------------------------------------");
+                        }
                     }
 
                     else if (tabel2 == 4)
                     {
-                        Console.WriteLine("Menampilkan semua data");
+                        Console.WriteLine("Menampilkan Semua Tabel Join");
                         var resultss = Profilings.GetProfilings();
                         foreach (var result in resultss)
                         {
@@ -218,8 +227,52 @@ public class Program
                             Console.WriteLine("");
                         }
                     }
-
                     else if (tabel2 == 5)
+                    {
+                        var emp = Employees.GetEmployees();
+                        var profiling = Profilings.GetProfilings();
+                        var education = Educations.GetEducation();
+                        var university = Universities.GetUniv();
+                        var result = from edu in education
+                                     join uni in university on edu.UniversityId equals uni.Id
+                                     join p in profiling on edu.Id equals p.EducationId
+                                     join em in emp on p.EmployeeId equals em.Id
+                                     select new
+                                     {
+                                         NIK = em.Nik,
+                                         FullName = em.FirstName + " " + em.LastName,
+                                         Birthdate = em.Birthdate,
+                                         Gender = em.Gender,
+                                         HiringDate = em.HiringDate,
+                                         Email = em.Email,
+                                         PhoneNumber = em.PhoneNumber,
+                                         Major = edu.Major,
+                                         Degree =  edu.Degree,
+                                         GPA = edu.Gpa,
+                                         UniversityName = uni.Name
+
+                                     };
+
+                        foreach (var result2 in result)
+                        {
+                            Console.WriteLine("NIK: " + result2.NIK);
+                            Console.WriteLine("FullName: " + result2.FullName);
+                            Console.WriteLine("Birthdate: " + result2.Birthdate);
+                            Console.WriteLine("Gender: " + result2.Gender);
+                            Console.WriteLine("HiringDate: " + result2.HiringDate);
+                            Console.WriteLine("Email: " + result2.Email);
+                            Console.WriteLine("PhoneNumber: " + result2.PhoneNumber);
+                            Console.WriteLine("Major: " + result2.Major);
+                            Console.WriteLine("Degree: " + result2.Degree);
+                            Console.WriteLine("GPA: " + result2.GPA);
+                            Console.WriteLine("UniversityName: " + result2.UniversityName);
+                            Console.WriteLine("-----------------------------------------");
+
+                        }
+
+                    }
+
+                    else if (tabel2 == 6)
                     {
                         Menu();
                         choice = Convert.ToInt32(Console.ReadLine());
