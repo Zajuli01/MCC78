@@ -8,12 +8,11 @@ using TugasGG.Controller;
 
 public class Program
 {
-    private static readonly string connectionString =
-        "Data Source=E5\\MSSQLSERVER2; Database=BookingRoom;; Integrated Security=True;Connect Timeout=30;Encrypt=False;";
-
     private static UniversityController universityController = new();
     private static EducationController educationController = new();
     private static EmployeeController employeeController = new();
+    private static ProfilingController profilingController = new();
+
 
 
     public static void Main()
@@ -74,7 +73,7 @@ public class Program
 
                     else if (tabel2 == 4)
                     {
-                        ProfilingView.GetAllProfil();
+                        profilingController.GetAll();
                     }
                     else if (tabel2 == 5)
                     {
